@@ -1,0 +1,27 @@
+[project]
+name = "flip-market"
+description = "Flip Market - Random reward pool on Stacks blockchain"
+authors = []
+
+[contracts.flip-market]
+path = "contracts/flip-market.clar"
+clarity_version = 2
+
+[repl]
+costs_analysis = true
+
+[requirements]
+clarinet = ">=1.0.0"
+
+[network]
+# Testnet settings
+[network.testnet]
+node_rpc_address = "https://api.testnet.hiro.so"
+node_rpc_port = 443
+deployment_fee_rate = 15
+
+# Mainnet settings
+[network.mainnet]
+node_rpc_address = "https://api.hiro.so"
+node_rpc_port = 443
+deployment_fee_rate = 15
