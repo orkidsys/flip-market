@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { useConnect } from '@stacks/connect-react'
+import { showConnect, openContractCall } from '@stacks/connect'
 import { StacksMainnet, StacksTestnet } from '@stacks/network'
 import { 
   AnchorMode, 
@@ -16,7 +16,6 @@ const CONTRACT_NAME = 'flip-market'
 const NETWORK = process.env.NEXT_PUBLIC_NETWORK === 'mainnet' ? StacksMainnet : StacksTestnet
 
 export default function Home() {
-  const { doContractCall, doOpenStxToken } = useConnect()
   const [userAddress, setUserAddress] = useState<string | null>(null)
   const [poolBalance, setPoolBalance] = useState<string>('0')
   const [isLoading, setIsLoading] = useState(false)
@@ -32,18 +31,18 @@ export default function Home() {
   }, [])
 
   const handleConnect = async () => {
-    try {
-      await doOpenStxToken({
-        onFinish: (data) => {
-          const address = data.userSession.loadUserData().profile.stxAddress.mainnet
-          setUserAddress(address)
-          localStorage.setItem('stacks-address', address)
-          fetchPoolBalance()
-        },
-      })
-    } catch (error) {
-      console.error('Error connecting wallet:', error)
-    }
+    showConnect({
+      appDetails: {
+        name: 'Flip Market',
+        icon: window.location.origin + '/icon.png',
+      },
+      onFinish: (data) => {
+        const address = data.userSession.loadUserData().profile.stxAddress.mainnet
+        setUserAddress(address)
+        localStorage.setItem('stacks-address', address)
+        fetchPoolBalance()
+      },
+    })
   }
 
   const fetchPoolBalance = async () => {
@@ -81,7 +80,7 @@ export default function Home() {
     setTxStatus('Preparing transaction...')
 
     try {
-      await doContractCall({
+      await openContractCall({
         contractAddress: CONTRACT_ADDRESS,
         contractName: CONTRACT_NAME,
         functionName: 'flip',
