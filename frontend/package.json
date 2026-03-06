@@ -13,7 +13,6 @@
     "@stacks/connect": "^6.0.0",
     "@stacks/network": "^6.0.0",
     "@stacks/transactions": "^6.0.0",
-    "@stacks/wallet-sdk": "^1.0.0",
     "next": "^14.0.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
